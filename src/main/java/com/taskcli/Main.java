@@ -55,22 +55,27 @@ public class Main {
             switch (action) {
                 case "add" -> {
                     addTask(itemsArray, args[1], ++maxId);
+                    saveItems(itemsArray);
                     break;
                 }
                 case "update" -> {
                     updateTask(itemsArray, Integer.parseInt(args[1]), args[2]);
+                    saveItems(itemsArray);
                     break;
                 }
                 case "delete" -> {
                     deleteTask(itemsArray, Integer.parseInt(args[1]));
+                    saveItems(itemsArray);
                     break;
                 }
                 case "mark-in-progress" ->{
-                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.IN_PROGRESS.name().toLowerCase());
+                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.IN_PROGRESS);
+                    saveItems(itemsArray);
                     return;
                 }
                 case "mark-done" ->{
-                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.DONE.name().toLowerCase());
+                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.DONE);
+                    saveItems(itemsArray);
                     break;
                 }
                 case "list" -> {
@@ -80,27 +85,30 @@ public class Main {
                 default -> System.out.println("Invalid Action");
             }
 
-            saveItems(itemsArray);
     }
 
     private static void listTasks(JsonArray itemsArray, String status) {
+        boolean taskFound = false;
+
         if (status == null) {
             System.out.println("All Tasks:");
+            taskFound = true;
             itemsArray.forEach(item -> System.out.println("[ ] - " + 
             item.getAsJsonObject().get("description")));
-        }
+        } else if ("done".equals(status) || "todo".equals(status) || "in_progress".equals(status)) {
 
-        boolean taskFound = false;
-        for(var item: itemsArray) {
-            JsonObject jsonItem = item.getAsJsonObject();
-            if (jsonItem.get("status").getAsString().equals(status)) {
-                taskFound = true;
-                System.out.println("[ ] - " + jsonItem.get("description"));
+            System.out.println(status.toUpperCase());
+            for(var item: itemsArray) {
+                JsonObject jsonItem = item.getAsJsonObject();
+                if (jsonItem.get("status").getAsString().equals(status)) {
+                    taskFound = true;
+                    System.out.println("[ ] - " + jsonItem.get("description"));
+                }
             }
         }
 
-        if(!taskFound) {
-            System.out.println("No Tasks Found");
+        if (!taskFound) {
+            System.out.println("No Tasks Found");            
         }
     }
 
@@ -109,7 +117,7 @@ public class Main {
         JsonObject newItem = new JsonObject();
         newItem.addProperty("id", id);
         newItem.addProperty("description", taskDescription);
-        newItem.addProperty("status", Status.TODO.name().toLowerCase());
+        newItem.addProperty("status", STATUS_MAP.get(Status.TODO.name().toLowerCase()));
         newItem.addProperty("createdAt", now.format(DATE_FORMAT));
         newItem.addProperty("updatedAt", now.format(DATE_FORMAT));
         itemsArray.add(newItem);
@@ -147,29 +155,33 @@ public class Main {
         System.out.println("Task with ID: " + id + " not found.");
     }
 
-    private static void updateTaskStatus(JsonArray itemsArray, int id, String status) {
+    private static void updateTaskStatus(JsonArray itemsArray, int id, Status status) {
         LocalDateTime now = LocalDateTime.now();
         for (var item: itemsArray) {
             JsonObject jsonItem = item.getAsJsonObject();
-            if(jsonItem.get("id").getAsInt() == id) {
+            if (jsonItem.get("id").getAsInt() == id) {
                 jsonItem.remove("status");
                 jsonItem.remove("updatedAt");
-                jsonItem.addProperty("status", status);
+                jsonItem.addProperty("status", STATUS_MAP.get(status.name().toLowerCase()));
                 jsonItem.addProperty("updatedAt", now.format(DATE_FORMAT));
-                System.out.println("Task "+ id +" marked as " + status);
+                System.out.println("Task " + id + " marked as " + status);
                 return;
             }
         }
-
+    
         System.out.println("Task with ID: " + id + " not found.");
     }
+    
 
     private static void saveItems(JsonArray itemsArray) {
+        System.out.println("Saving tasks to " + FILE_NAME);
         try (FileWriter file = new FileWriter(FILE_NAME)) {
             file.write(GSON.toJson(itemsArray));
             file.flush();
+            System.out.println("Tasks saved successfully.");
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("Error saving tasks: " + e.getMessage());
         }
     }
+    
 }

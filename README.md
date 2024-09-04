@@ -69,7 +69,7 @@ A simple Command Line Interface (CLI) application to help you manage your tasks 
 
  task-cli list done
  task-cli list todo
- task-cli list in-progress
+ task-cli list in_progress
 ```
 
 ### Task Properties

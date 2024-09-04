@@ -1,24 +1,24 @@
 [
 	{
 		"id": 1,
-		"status": "todo",
 		"createdAt": "04-09-2024 20:37:25",
-		"updatedAt": "04-09-2024 20:56:38",
-		"description": "Buy Chicken Breasts and Rice"
+		"description": "Buy Chicken Breasts and Rice",
+		"status": "in_progress",
+		"updatedAt": "04-09-2024 21:47:49"
 	},
 	{
 		"id": 2,
 		"description": "Write some code",
-		"status": "todo",
 		"createdAt": "04-09-2024 20:37:50",
-		"updatedAt": "04-09-2024 20:37:50"
+		"status": "done",
+		"updatedAt": "04-09-2024 21:48:20"
 	},
 	{
 		"id": 3,
 		"description": "Clean your room",
 		"createdAt": "04-09-2024 20:38:07",
-		"status": "done",
-		"updatedAt": "04-09-2024 20:58:37"
+		"status": "in_progress",
+		"updatedAt": "04-09-2024 21:27:26"
 	},
 	{
 		"id": 4,
