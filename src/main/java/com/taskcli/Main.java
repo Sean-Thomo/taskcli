@@ -66,11 +66,11 @@ public class Main {
                     break;
                 }
                 case "mark-in-progress" ->{
-                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.IN_PROGRESS);
+                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.IN_PROGRESS.name().toLowerCase());
                     return;
                 }
                 case "mark-done" ->{
-                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.DONE);
+                    updateTaskStatus(itemsArray, Integer.parseInt(args[1]), Status.DONE.name().toLowerCase());
                     break;
                 }
                 case "list" -> {
@@ -117,11 +117,13 @@ public class Main {
     }
 
     private static void updateTask(JsonArray itemsArray, int id, String newDescription){
-
+        LocalDateTime now = LocalDateTime.now();
         for (var item: itemsArray) {
             JsonObject jsonItem = item.getAsJsonObject();
             if (jsonItem.get("id").getAsInt() == id) {
                 jsonItem.remove("description");
+                jsonItem.remove("updatedAt");
+                jsonItem.addProperty("updatedAt", now.format(DATE_FORMAT));
                 jsonItem.addProperty("description", newDescription);
                 System.out.println("Task updated successfully ID: " + id);
                 return;
@@ -145,13 +147,16 @@ public class Main {
         System.out.println("Task with ID: " + id + " not found.");
     }
 
-    private static void updateTaskStatus(JsonArray itemsArray, int id, Status status) {
+    private static void updateTaskStatus(JsonArray itemsArray, int id, String status) {
+        LocalDateTime now = LocalDateTime.now();
         for (var item: itemsArray) {
             JsonObject jsonItem = item.getAsJsonObject();
             if(jsonItem.get("id").getAsInt() == id) {
                 jsonItem.remove("status");
-                jsonItem.addProperty("status", STATUS_MAP.get(status.name().toLowerCase()));
-                System.out.println("Task "+ id +" marked as " + status.name().toLowerCase());
+                jsonItem.remove("updatedAt");
+                jsonItem.addProperty("status", status);
+                jsonItem.addProperty("updatedAt", now.format(DATE_FORMAT));
+                System.out.println("Task "+ id +" marked as " + status);
                 return;
             }
         }

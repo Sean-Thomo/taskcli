@@ -38,6 +38,8 @@ A simple Command Line Interface (CLI) application to help you manage your tasks 
 
    #Example
    #mvn exec:java -Dexec.mainClass="com.taskcli.Main" -Dexec.args="add 'Buy Groceries'"
+   #mvn exec:java -Dexec.mainClass="com.taskcli.Main" -Dexec.args="mark-in-progress 1"
+   #mvn exec:java -Dexec.mainClass="com.taskcli.Main" -Dexec.args="update 1 'Buy groceries and cook dinner'"
    ```
 
 ### Usage

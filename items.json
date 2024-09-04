@@ -1,0 +1,30 @@
+[
+	{
+		"id": 1,
+		"status": "todo",
+		"createdAt": "04-09-2024 20:37:25",
+		"updatedAt": "04-09-2024 20:56:38",
+		"description": "Buy Chicken Breasts and Rice"
+	},
+	{
+		"id": 2,
+		"description": "Write some code",
+		"status": "todo",
+		"createdAt": "04-09-2024 20:37:50",
+		"updatedAt": "04-09-2024 20:37:50"
+	},
+	{
+		"id": 3,
+		"description": "Clean your room",
+		"createdAt": "04-09-2024 20:38:07",
+		"status": "done",
+		"updatedAt": "04-09-2024 20:58:37"
+	},
+	{
+		"id": 4,
+		"description": "Check on grandma",
+		"status": "todo",
+		"createdAt": "04-09-2024 21:04:45",
+		"updatedAt": "04-09-2024 21:04:45"
+	}
+]
