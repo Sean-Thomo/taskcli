@@ -25,6 +25,21 @@ A simple Command Line Interface (CLI) application to help you manage your tasks 
    cd taskcli
    ```
 
+2. **Install packages:**
+
+   ```bash
+   mvn install
+   ```
+
+3. **Run application:**
+
+   ```bash
+   mvn exec:java -Dexec.mainClass="com.taskcli.Main" -Dexec.args="<command> '<args>'"
+
+   #Example
+   #mvn exec:java -Dexec.mainClass="com.taskcli.Main" -Dexec.args="add 'Buy Groceries'"
+   ```
+
 ### Usage
 
 ```bash
